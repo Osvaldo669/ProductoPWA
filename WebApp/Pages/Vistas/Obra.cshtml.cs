@@ -37,10 +37,10 @@ namespace WebApp.Pages.Vistas
             if (respuesta)
             {
                 Obras = await obraBL.GetObrasAsync();
-                Alerta = "SE INSERTO CORRECTAMENTE UNA NOTA";
+                Alerta = "SE INSERTO CORRECTAMENTE UNA OBRA";
             }
             else
-                Alerta = "Ocurrio un error al crear la nota";
+                Alerta = "Ocurrio un error al crear el nuevo elemento";
         }
 
         public async Task<FileResult> OnPostGenerarExcel()

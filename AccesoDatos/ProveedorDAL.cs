@@ -44,7 +44,7 @@ namespace AccesoDatos
 									Direccion = (string)Reader[3],
 									Telefono = (string)Reader[4],
 									Correo = (string)Reader[5],
-									//Tipo_Material=(string)Reader[6],
+									Tipo_Material=Reader[6].ToString(),
 								});
 							}
 
