@@ -1,0 +1,144 @@
+﻿@page
+@model WebApp.Pages.Vistas.ObraModel
+@{}
+
+<h3>Sección Obras</h3>
+<div>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Visualizar</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Insertar</button>
+        </li>
+
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            @if (Model.Obras.Count() > 0)
+                {
+                <div class="table-responsive center" style="margin:3%">
+                    <table class="table">
+                        <thead class="table-secondary">
+
+                            <tr>
+                                <th>Id-Obra</th>
+                                <th>Nombre-Obra</th>
+                                <th>Direccion</th>
+                                <th>Inicio</th>
+                                <th>Final</th>
+                                <th>Dueño</th>
+                                <th>Responsable</th>
+                                <th>Telefono</th>
+                                <th>Correo</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+                            @foreach (var obra in Model.Obras)
+                                {
+                                <tr>
+                                    <td>@obra.Id_Obra</td>
+                                    <td>@obra.Nombre_Obra</td>
+                                    <td>@obra.Direccion</td>
+                                    <td>@obra.FechaInicio</td>
+                                    <td>@obra.FechaFinal</td>
+                                    <td>@obra.Dueno</td>
+                                    <td>@obra.Responsable</td>
+                                    <td>@obra.Tel_resp</td>
+                                    <td>@obra.Correo_res</td>
+                                </tr>
+                                }
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <form method="post" asp-page-handler="GenerarExcel">
+                        <button type="submit" class="btn btn-warning">Generar archivo "EXCEL"</button>
+                    </form>
+                </div>
+             }
+                else
+                {
+                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill" /></svg>
+                    <div>
+                        <p>No hay Datos</p>
+                    </div>
+                </div>
+                }
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <form class="was-validated" method="post">
+
+                <div class="mb-3 mt-3">
+                    <label class="form-label">Nombre de la obra:</label>
+                    <input type="text" class="form-control" id="uname" placeholder="Nombre de la obra" name="Nombre" required>
+                    <div class="valid-feedback">Correcto</div>
+                    <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+                </div>
+
+                <div class="mb-3 mt-3">
+                    <label class="form-label">Direccion:</label>
+                    <input type="text" class="form-control" id="uname" placeholder="Direccion" name="Direccion" required>
+                    <div class="valid-feedback">Correcto</div>
+                    <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+                </div>
+
+                <div class="mb-3 mt-3">
+                    <label class="form-label">Fecha Inicio:</label>
+                    <input type="date" class="form-control" name="FechaI" required>
+                    <div class="valid-feedback">Correcto</div>
+                    <div class="invalid-feedback">Seleccione una fecha de inicio!!!</div>
+                </div>
+
+                <div class="mb-3 mt-3">
+                    <label class="form-label">Fecha Final:</label>
+                    <input type="date" class="form-control" name="FechaF" required>
+                    <div class="valid-feedback">Correcto</div>
+                    <div class="invalid-feedback">Seleccione una fecha de fin!!!</div>
+                </div>
+
+                <div class="mb-3 mt-3">
+                    <label class="form-label">Dueño:</label>
+                    <input type="text" class="form-control" id="uname" placeholder="Escriba el nombre del dueño" name="Dueno" required>
+                    <div class="valid-feedback">Correcto</div>
+                    <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+                </div>
+
+                <div class="mb-3 mt-3">
+                    <label class="form-label">Responsable:</label>
+                    <input type="text" class="form-control" id="uname" placeholder="Escriba el nombre del responsable de la obra" name="Responsable" required>
+                    <div class="valid-feedback">Correcto</div>
+                    <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+                </div>
+
+                <div class="mb-3 mt-3">
+                    <label class="form-label">Telefono:</label>
+                    <input type="tel" class="form-control" id="uname" placeholder="Escriba el #tel del responsable" name="Telefono" required>
+                    <div class="valid-feedback">Correcto</div>
+                    <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+                </div>
+
+                <div class="mb-3 mt-3">
+                    <label class="form-label">Correo Electronico:</label>
+                    <input type="email" class="form-control" placeholder="Escriba un correo electronico" name="Correo" required>
+                    <div class="valid-feedback">Correcto</div>
+                    <div class="invalid-feedback">Llene con un correo electronico valido!!!</div>
+                </div>
+                <button type="submit" class="btn btn-success">Insertar Nota</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@if (Model.Alerta != null)
+{
+    <script>
+            window.onload = () => {
+                alert("@Model.Alerta");
+            }
+    </script>
+}
+

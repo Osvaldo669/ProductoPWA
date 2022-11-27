@@ -1,0 +1,134 @@
+﻿@page
+@model WebApp.Pages.Vistas.ProveedorModel
+@{
+}
+
+<h3>Sección Proveedores</h3>
+<div>
+    <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div style="margin:7%;">
+                    @if (Model.proveedorsList.Count() > 0)
+                    {
+                        <div class="table-responsive" style="margin:3%">
+                            <table class="table">
+                                <thead class="table-secondary">
+
+                                    <tr>
+                                        <th>Id-Proveedor</th>
+                                        <th>Razon Social</th>
+                                        <th>Agente</th>
+                                        <th>Dirección</th>
+                                        <th>Telefono</th>
+                                        <th>Correo</th>
+                                        <th>Tipo Material</th>
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var proveedor in Model.proveedorsList)
+                                    {
+                                        <tr>
+                                            <td>@proveedor.Id_Proveedor</td>
+                                            <td>@proveedor.RazonSoc</td>
+                                            <td>@proveedor.Agente</td>
+                                            <td>@proveedor.Direccion</td>
+                                            <td>@proveedor.Telefono</td>
+                                            <td>@proveedor.Correo</td>
+                                            <td>@proveedor.Tipo_Material</td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <form method="post" asp-page-handler="GenerarExcel">
+                                <button type="submit" class="btn btn-warning">Generar archivo "EXCEL"</button>
+                            </form>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill" /></svg>
+                            <div>
+                                <p>No hay Datos</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Tabla de Proveedores</h5>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <h3>Insertar un proveedor</h3>
+                <div style="margin:8%;">
+                    <form class="was-validated" method="post">
+                        <div class="mb-3 mt-3">
+                            <label for="uname" class="form-label">Razón Social:</label>
+                            <input type="text" class="form-control" id="uname" placeholder="Razón Social" name="Razon" required>
+                            <div class="valid-feedback">Correcto</div>
+                            <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="uname" class="form-label">Agente:</label>
+                            <input type="text" class="form-control" id="uname" placeholder="Agente" name="Agente" required>
+                            <div class="valid-feedback">Correcto</div>
+                            <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="uname" class="form-label">Dirección:</label>
+                            <input type="text" class="form-control" id="uname" placeholder="Dirección" name="Direccion" required>
+                            <div class="valid-feedback">Correcto</div>
+                            <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="uname" class="form-label">Teléfono:</label>
+                            <input type="tel" class="form-control" id="uname" placeholder="Teléfono de contacto" name="Telefono" required>
+                            <div class="valid-feedback">Correcto</div>
+                            <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="uname" class="form-label">Correo Electronico:</label>
+                            <input type="email" class="form-control" id="uname" placeholder="Correo electronico" name="Correo" required>
+                            <div class="valid-feedback">Correcto</div>
+                            <div class="invalid-feedback">Llene con un correo electronico</div>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="uname" class="form-label">Tipo Material:</label>
+                            <input type="text" class="form-control" id="uname" placeholder="Tipo de material" name="Material" required>
+                            <div class="valid-feedback">Correcto</div>
+                            <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+                        </div>
+                        <button type="submit" class="btn btn-success">Insertar Proveedor</button>
+                    </form>
+                </div>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Insertar un nuevo proveedor</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@if (Model.Alerta != null)
+{
+    <script>
+            window.onload = () => {
+                alert("@Model.Alerta");
+            }
+    </script>
+}

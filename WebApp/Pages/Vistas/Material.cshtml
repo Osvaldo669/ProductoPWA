@@ -1,0 +1,122 @@
+﻿@page
+@model WebApp.Pages.Vistas.MaterialModel
+@{
+}
+
+<h3>Sección Materiales</h3>
+<div>
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button alert-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Ver Materiales
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+
+                    @if (Model.Materials?.Count() > 0)
+                    {
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="table-secondary">
+                                    <tr>
+                                        <th scope="col">ID Material</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Marca</th>
+                                        <th scope="col">Categoria</th>
+                                        <th scope="col">Unidad de Medida</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var material in Model.Materials)
+                                    {
+                                        <tr>
+                                            <td>@material.Id_Material</td>
+                                            <td>@material.Nombre_Mat</td>
+                                            <td>@material.Marca</td>
+                                            <td>@material.Categoria</td>
+                                            <td>@material.UnidadMedida</td>
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <form method="post" asp-page-handler="GenerarExcel">
+                                <button type="submit" class="btn btn-warning">Generar archivo "EXCEL"</button>
+                            </form>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill" /></svg>
+                            <div>
+                                <p>No hay Datos</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Insertar Nuevo Material
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <form class="was-validated" method="post">
+                        <div class="mb-3 mt-3">
+                            <label for="uname" class="form-label">Nombre del Material:</label>
+                            <input type="text" class="form-control" id="uname" placeholder="Nombre del material" name="Nombre" required>
+                            <div class="valid-feedback">Correcto</div>
+                            <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="uname" class="form-label">Marca:</label>
+                            <input type="text" class="form-control" id="uname" placeholder="Marca del material" name="Marca" required>
+                            <div class="valid-feedback">Correcto</div>
+                            <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="uname" class="form-label">Categoria:</label>
+                            <input type="text" class="form-control" id="uname" placeholder="Categoria del material" name="Categoria" required>
+                            <div class="valid-feedback">Correcto</div>
+                            <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="uname" class="form-label">Unidad de Medida:</label>
+                            <input type="text" class="form-control" id="uname" placeholder="Unidad de medida de material" name="Medida" required>
+                            <div class="valid-feedback">Correcto</div>
+                            <div class="invalid-feedback">Llene Correctamente este campo!!! ejemplo "KG, LT, Piezas, etc..."</div>
+                        </div>
+                        <button type="submit" class="btn btn-success">Insertar Material</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+
+
+@if(Model.Alerta != null)
+{
+        <script>
+            window.onload = () => {
+                alert("@Model.Alerta");
+            }
+        </script>
+}
+

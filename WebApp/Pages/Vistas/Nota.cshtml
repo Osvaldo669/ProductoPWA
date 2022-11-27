@@ -1,0 +1,247 @@
+﻿@page
+@model WebApp.Pages.Vistas.NotaModel
+@{}
+
+<h3>Sección Notas</h3>
+
+<div>
+    <p>
+        <button class="btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+            Mostrar Tabla Nota
+        </button>
+    </p>
+    <div style="min-height: 120px;">
+        <div class="collapse collapse-horizontal" id="collapseWidthExample">
+            <div class="card card-body" style="width:100%;">
+
+                @if (Model.notasList.Count() > 0)
+                {
+                    <div class="table-responsive" style="margin:3%">
+                        <table class="table">
+                            <thead class="table-primary">
+
+                                <tr>
+                                    <th>Id-Nota</th>
+                                    <th>Fecha</th>
+                                    <th>Extra</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+                                @foreach (var nota in Model.notasList)
+                                {
+                                    <tr>
+                                        <td>@nota.Id_Nota</td>
+                                        <td>@nota.Fecha</td>
+                                        <td>@nota.Extra</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <form method="post" asp-page-handler="GenerarExcel">
+                            <button type="submit" class="btn btn-warning">Generar archivo "EXCEL"</button>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill" /></svg>
+                        <div>
+                            <p>No hay Datos</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <p>
+        <button class="btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSecond" aria-expanded="false" aria-controls="collapseSecond">
+            Mostrar Formulario para insertar nueva nota
+        </button>
+    </p>
+    <div style="min-height: 120px;">
+        <div class="collapse collapse-horizontal" id="collapseSecond">
+            <div class="card card-body" style="width:100%;">
+                <form class="was-validated" method="post">
+                    <div class="mb-3 mt-3">
+                        <label for="uname" class="form-label">Extra:</label>
+                        <input type="text" class="form-control" id="uname" placeholder="Escriba un extra para la nota" name="Extra" required>
+                        <div class="valid-feedback">Correcto</div>
+                        <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Insertar Nota</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="margin:2%;">
+    <div class="accordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button alert-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    Consulta Especial
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div>
+                        <form method="post" asp-page-handler="OnClick" class="was-validated">
+                            <div class="mb-3 mt-3">
+                                <label class="form-label">Escoja una obra para la busqueda:</label>
+                                <select class="form-control" name="Obra" required>
+                                    @foreach (var ob in Model.obras)
+                                    {
+                                        <option value="@ob.Id_Obra">@ob.Nombre_Obra</option>
+                                    }
+                                </select>
+                                <div class="valid-feedback">Correcto</div>
+                                <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+                            </div>
+
+                            <div class="mb-3 mt-3">
+                                <label for="uname" class="form-label">Marca:</label>
+                                <input type="date" class="form-control" name="Fecha1" required>
+                                <div class="valid-feedback">Correcto</div>
+                                <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+                            </div>
+
+                            <div class="mb-3 mt-3">
+                                <label for="uname" class="form-label">Categoria:</label>
+                                <input type="date" class="form-control" name="Fecha2" required>
+                                <div class="valid-feedback">Correcto</div>
+                                <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+                            </div>
+
+                            <button class="btn btn-success">Buscar Notas</button>
+                        </form>
+
+                    </div>
+                    <div style="margin: 3%;">
+                        @if (Model.busquedas?.Count() > 0)
+                        {
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class="table-secondary">
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Fecha</th>
+                                            <th scope="col">Extra</th>
+                                            <th scope="col">Cantidad</th>
+                                            <th scope="col">Precio Unitario</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var nota in Model.busquedas)
+                                        {
+                                            <tr>
+                                                <td>@nota.Id</td>
+                                                <td>@nota.Fecha</td>
+                                                <td>@nota.Extra</td>
+                                                <td>@nota.Cantidad</td>
+                                                <td>@nota.PrecioUnitario</td>
+                                            </tr>
+
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill" /></svg>
+                                <div>
+                                    <p>No hay Datos</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <form method="post" asp-page-handler="TwoClick" class="was-validated">
+        <div class="mb-3 mt-3">
+            <label class="form-label">Escoja una obra para la busqueda:</label>
+            <select class="form-control" name="ObraB" required>
+                @foreach (var ob in Model.obras)
+                {
+                    <option value="@ob.Id_Obra">@ob.Nombre_Obra</option>
+                }
+            </select>
+            <div class="valid-feedback">Correcto</div>
+            <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+        </div>
+        <button class="btn btn-success">Buscar Notas</button>
+    </form>
+
+</div>
+
+<div style="margin: 3%;">
+    @if (Model.busquedas2?.Count() > 0)
+    {
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="table-secondary">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Extra</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Precio Unitario</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var nota in Model.busquedas2)
+                    {
+                        <tr>
+                            <td>@nota.Id</td>
+                            <td>@nota.Fecha</td>
+                            <td>@nota.Extra</td>
+                            <td>@nota.Cantidad</td>
+                            <td>@nota.PrecioUnitario</td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    else
+    {
+        <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill" /></svg>
+            <div>
+                <p>No hay Datos</p>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+@if (Model.Alerta != null)
+{
+    <script>
+            window.onload = () => {
+                alert("@Model.Alerta");
+            }
+    </script>
+}
+
+

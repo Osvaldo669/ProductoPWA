@@ -1,0 +1,171 @@
+﻿@page
+@model WebApp.Pages.Vistas.DetalleNotaModel
+@{}
+
+<div>
+    <h2>Datelles Notas</h2>
+    <div class="accordion" id="accordionPanelsStayOpenExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                    Ver Detalles Notas
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                <div class="accordion-body">
+                    @if (Model.ListaDetalleNotas?.Count() > 0)
+                    {
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="table-secondary">
+                                    <tr>
+                                        <th scope="col">ID Detalle Nota</th>
+                                        <th scope="col">Obra</th>
+                                        <th scope="col">Proveedor</th>
+                                        <th scope="col">Material</th>
+                                        <th scope="col">Detalle de la nota</th>
+                                        <th scope="col">Cantidad</th>
+                                        <th scope="col">Precio /U</th>
+                                        <th scope="col">Extra</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var dt in Model.ListaDetalleNotas)
+                                    {
+                                        <tr>
+                                            <td>@dt.Id_Detalle</td>
+                                            <td>@dt.ObraP</td>
+                                            <td>@dt.Provee</td>
+                                            <td>@dt.MaterialM</td>
+                                            <td>@dt.NotaE</td>
+                                            <td>@dt.Cantidad</td>
+                                            <td>@dt.PrecioUnitario</td>
+                                            <td>@dt.Extra</td>
+
+
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <form method="post" asp-page-handler="GenerarExcel">
+                                <button type="submit" class="btn btn-warning">Generar archivo "EXCEL"</button>
+                            </form>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill" /></svg>
+                            <div>
+                                <p>No hay Datos</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Insertar nuevo elemento
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <form class="was-validated" method="post">
+
+                        <div class="mb-3 mt-3">
+                            <label for="uname" class="form-label">Obra:</label>
+                            <select class="form-control" name="Obra" required>
+                                @*<option disabled selected>Seleecione una opcion</option>*@
+                                @foreach (var obra in Model.obras)
+                                {
+                                    <option value="@obra.Id_Obra">@obra.Nombre_Obra.</option>
+                                }
+                            </select>
+                            <div class="valid-feedback">Correcto</div>
+                            <div class="invalid-feedback">Seleccione una opcion!!!</div>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="uname" class="form-label">Proveedor:</label>
+                            <select class="form-control" name="Proveedor" required>
+                                @*<option disabled selected>Seleecione una opcion</option>*@
+                                @foreach (var prove in Model.proveedors)
+                                {
+                                    <option value="@prove.Id_Proveedor">@prove.RazonSoc.</option>
+                                }
+                            </select>
+                            <div class="valid-feedback">Correcto</div>
+                            <div class="invalid-feedback">Seleccione una opcion!!!</div>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="uname" class="form-label">Material:</label>
+                            <select class="form-control" name="Material" required>
+                                @*<option disabled selected>Seleecione una opcion</option>*@
+                                @foreach (var mat in Model.materials)
+                                {
+                                    <option value="@mat.Id_Material">@mat.Nombre_Mat</option>
+                                }
+                            </select>
+                            <div class="valid-feedback">Correcto</div>
+                            <div class="invalid-feedback">Seleccione una opcion!!!</div>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label class="form-label">Nota:</label>
+                            <select class="form-control" name="Nota" required>
+                                @*<option disabled selected>Seleecione una opcion</option>*@
+                                @foreach (var nota in Model.notas)
+                                {
+                                    <option value="@nota.Id_Nota">@nota.Extra</option>
+                                }
+                            </select>
+                            <div class="valid-feedback">Correcto</div>
+                            <div class="invalid-feedback">Seleccione una opcion!!!</div>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label class="form-label">Cantidad:</label>
+                            <input type="number" class="form-control" placeholder="Escriba la cantidad" name="Cantidad" required>
+                            <div class="valid-feedback">Correcto</div>
+                            <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label class="form-label">Precio Unitario:</label>
+                            <input type="number" step="0.01" class="form-control" placeholder="Escriba el precio unitario" name="Precio" required>
+                            <div class="valid-feedback">Correcto</div>
+                            <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label class="form-label">Extra:</label>
+                            <input type="text" class="form-control" id="uname" placeholder="Extra" name="Extra" required>
+                            <div class="valid-feedback">Correcto</div>
+                            <div class="invalid-feedback">Llene Correctamente este campo!!!</div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success">Insertar nuevo elemento</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@if (Model.Alerta != null)
+{
+    <script>
+            window.onload = () => {
+                alert("@Model.Alerta");
+            }
+    </script>
+}
